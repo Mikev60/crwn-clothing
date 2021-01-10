@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { selectCartItems, selectCartTotal } from '../../redux/cart/cart.selectors'
 import CheckoutItem from '../../components/checkout-item/checkout-item.component'
+import CheckoutButton from '../../components/stripe-button/stripe-button.component'
 
 import './checkout.styles.scss'
 
@@ -30,6 +31,10 @@ const CheckoutPage = ({cartItems, cartTotal}) => (
             cartItems.map(cartItem => <CheckoutItem key={cartItem.id} cartItem={cartItem} />)
         }
         <div className='total'>Total: {cartTotal} €</div>
+        <div className='test-warning'>
+            Il s'agit d'un site e-commerce de démonstration. Ne pas renseigner sa carte bancaire pour paiement, mais utiliser plutôt <br /> 4242 4242 4242 4242 - Date : Postérieure à la date actuelle - CVC 123<br />
+        </div>
+        <CheckoutButton price={cartTotal} />
     </div>
 )
 
