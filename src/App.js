@@ -9,7 +9,7 @@ import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component.jsx';
 import SignInUp from './pages/signInUp/signInUp.component.jsx';
 import { auth, createUserProfileDocument} from './firebase/firebase.utils';
-import { setCurrentUser } from './redux/user/user.actions';
+import { setCurrentUser, checkUserSession } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 import CheckoutPage from './pages/checkout/checkout.component';
 
@@ -25,7 +25,10 @@ class App extends React.Component {
 	unsuscribeFormAuth = null;
 
 	componentDidMount() {
-		const { setCurrentUser } = this.props;
+		const { checkUserSession } = this.props;
+
+		checkUserSession()
+		/* const { setCurrentUser } = this.props;
 
 		this.unsuscribeFormAuth = auth.onAuthStateChanged(async (userAuth) => {
 			if (userAuth) {
@@ -40,7 +43,7 @@ class App extends React.Component {
 				});
 			}
 			setCurrentUser(userAuth);
-		});
+		}); */
 	}
 
 	componentWillUnmount() {
@@ -67,7 +70,8 @@ class App extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		setCurrentUser: (user) => dispatch(setCurrentUser(user))
+		setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+		checkUserSession: () => dispatch(checkUserSession()),
 	};
 };
 

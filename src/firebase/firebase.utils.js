@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
+import { putResolve } from 'redux-saga/effects';
 
 const config = {
 	apiKey: 'AIzaSyDUjWMGesJPYewhaQ_nmblzDe2q1sANls4',
@@ -68,11 +69,19 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
 	return await batch.commit();
 }
 
+export const getCurrentUser = () => {
+	return new Promise((resolve, reject) => {
+		const unsuscribe = auth.onAuthStateChanged(userAuth => {
+			unsuscribe();
+			resolve(userAuth);
+		}, reject)
+	})
+}
+
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-const provider = new firebase.auth.GoogleAuthProvider();
-//provider.setCustomParameters({ prompt: 'select_account' });
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export default firebase;
